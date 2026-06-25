@@ -1,0 +1,4 @@
+[core]
+    remote = myremote
+['remote "myremote"']
+    url = s3://bachbach-mlops-lab-aws-20260626001024/dvc
