@@ -9,26 +9,24 @@ Thu tu anh nen dung:
 
 2. GitHub Actions - MLOps Pipeline xanh:
    - `submission/screenshots/02-github-actions-green.png`
-   - Anh ban da chup trong chat: MLOps Pipeline co Unit Test, Train, Eval, Deploy mau xanh.
+   - Anh 1 ban vua gui.
 
 3. S3 bucket root co `dvc/` va `models/`:
    - `submission/screenshots/03-s3-bucket-root.png`
-   - Anh ban da chup trong chat: bucket `bachbach-mlops-lab-aws-20260626001024`.
+   - Anh 2 ban vua gui, hien folder/object `dvc/`.
 
 4. S3 model artifact:
    - `submission/screenshots/04-s3-model-latest.png`
-   - Anh ban da chup trong chat: `models/latest/model.pkl`.
+   - Anh 3 ban vua gui, hien `models/latest/model.pkl`.
 
 5. EC2 instance running:
    - `submission/screenshots/05-ec2-instance-running.png`
-   - Anh ban da chup trong chat: `mlops-serve-2`, `t3.small`, running, 3/3 checks passed.
+   - Anh 4 ban vua gui.
 
 6. Curl endpoint outputs:
    - `submission/screenshots/06-curl-health.png`
    - `submission/screenshots/06-curl-predict.png`
-   - Anh ban da chup trong chat:
-     - `curl http://54.197.156.225:8000/health` -> `{"status":"ok"}`
-     - `curl -X POST http://54.197.156.225:8000/predict ...` -> `{"prediction":0,"label":"thap"}`
+   - Anh 5 va 6 ban vua gui.
 
 7. Continuous training trigger:
    - `submission/screenshots/07-continuous-training-run.png`
