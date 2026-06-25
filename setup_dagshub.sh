@@ -1,0 +1,61 @@
+#!/bin/bash
+# Setup DagsHub MLflow Remote Tracking (Bonus 1)
+
+set -e
+
+echo "=========================================="
+echo "🎁 BONUS 1: Setup DagsHub MLflow Remote"
+echo "=========================================="
+echo ""
+
+# Check if dagshub is installed
+if ! python -c "import dagshub" 2>/dev/null; then
+    echo "Installing dagshub..."
+    pip install dagshub
+fi
+
+echo "DagsHub Setup Instructions:"
+echo "=========================================="
+echo ""
+echo "1️⃣  Create DagsHub Account"
+echo "   → Go to https://dagshub.com"
+echo "   → Sign up (free account)"
+echo ""
+echo "2️⃣  Connect GitHub Repository"
+echo "   → Click 'Create Repository'"
+echo "   → Choose 'Connect an existing GitHub repo'"
+echo "   → Select your mlops-lab repository"
+echo ""
+echo "3️⃣  Get MLflow Tracking Credentials"
+echo "   → Go to your DagsHub repo page"
+echo "   → Click 'Remote' tab"
+echo "   → Find 'Experiments' section"
+echo "   → Copy the following values:"
+echo ""
+echo "     MLFLOW_TRACKING_URI=https://dagshub.com/<username>/<repo>.mlflow"
+echo "     MLFLOW_TRACKING_USERNAME=<your-username>"
+echo "     MLFLOW_TRACKING_PASSWORD=<your-token>"
+echo ""
+echo "4️⃣  Add to GitHub Secrets"
+echo "   → Go to GitHub repo → Settings → Secrets and variables → Actions"
+echo "   → Add these secrets:"
+echo "     - DAGSHUB_MLFLOW_TRACKING_URI"
+echo "     - DAGSHUB_MLFLOW_TRACKING_USERNAME"
+echo "     - DAGSHUB_MLFLOW_TRACKING_PASSWORD"
+echo ""
+echo "5️⃣  Test Locally (Optional)"
+echo "   Create a .env file with:"
+echo ""
+echo "     MLFLOW_TRACKING_URI=https://dagshub.com/<username>/<repo>.mlflow"
+echo "     MLFLOW_TRACKING_USERNAME=<your-username>"
+echo "     MLFLOW_TRACKING_PASSWORD=<your-token>"
+echo ""
+echo "   Then run:"
+echo "     source .env"
+echo "     python src/train.py"
+echo ""
+echo "=========================================="
+echo ""
+echo "After setup, run this script to verify:"
+echo "  ./test_dagshub_connection.sh"
+echo ""

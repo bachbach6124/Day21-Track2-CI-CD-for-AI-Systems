@@ -9,7 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classification_report
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -49,6 +49,30 @@ def train(
     X_eval = df_eval.drop(columns=["target"])
     y_eval = df_eval["target"]
 
+    # BONUS 5: Check data distribution and warn about class imbalance
+    class_counts = y_train.value_counts()
+    total_samples = len(y_train)
+    class_distribution = {}
+    
+    print("\n" + "=" * 60)
+    print("DATA DISTRIBUTION ANALYSIS")
+    print("=" * 60)
+    
+    for class_id in [0, 1, 2]:
+        count = class_counts.get(class_id, 0)
+        percentage = (count / total_samples) * 100
+        class_distribution[f"class_{class_id}_percentage"] = percentage
+        
+        class_name = {0: "Low", 1: "Medium", 2: "High"}[class_id]
+        print(f"Class {class_id} ({class_name:6s}): {count:4d} samples ({percentage:5.2f}%)")
+        
+        # Warning if class < 10%
+        if percentage < 10.0:
+            warning_msg = f"⚠️  WARNING: Class {class_id} ({class_name}) has only {percentage:.2f}% of samples (< 10% threshold)"
+            print(warning_msg)
+    
+    print("=" * 60 + "\n")
+
     with mlflow.start_run():
         mlflow.log_params(params)
 
@@ -65,9 +89,46 @@ def train(
 
         print(f"Accuracy: {acc:.4f} | F1: {f1:.4f}")
 
+        # BONUS 3: Generate performance report
+        cm = confusion_matrix(y_eval, preds)
+        report = classification_report(y_eval, preds, target_names=["low", "medium", "high"])
+        
+        # Create detailed report
+        os.makedirs("outputs", exist_ok=True)
+        with open("outputs/report.txt", "w") as f:
+            f.write("=" * 60 + "\n")
+            f.write("WINE QUALITY CLASSIFICATION - PERFORMANCE REPORT\n")
+            f.write("=" * 60 + "\n\n")
+            
+            f.write(f"Model Type: {params.get('model_type', 'random_forest')}\n")
+            f.write(f"Overall Accuracy: {acc:.4f}\n")
+            f.write(f"Weighted F1-Score: {f1:.4f}\n\n")
+            
+            f.write("-" * 60 + "\n")
+            f.write("CONFUSION MATRIX\n")
+            f.write("-" * 60 + "\n")
+            f.write("              Predicted\n")
+            f.write("              Low  Medium  High\n")
+            f.write(f"Actual Low    {cm[0][0]:>4} {cm[0][1]:>6} {cm[0][2]:>6}\n")
+            f.write(f"       Medium {cm[1][0]:>4} {cm[1][1]:>6} {cm[1][2]:>6}\n")
+            f.write(f"       High   {cm[2][0]:>4} {cm[2][1]:>6} {cm[2][2]:>6}\n\n")
+            
+            f.write("-" * 60 + "\n")
+            f.write("CLASSIFICATION REPORT (Precision, Recall, F1-Score)\n")
+            f.write("-" * 60 + "\n")
+            f.write(report)
+            f.write("\n")
+
+        print("Performance report saved to outputs/report.txt")
+
         os.makedirs("outputs", exist_ok=True)
         with open("outputs/metrics.json", "w") as f:
-            json.dump({"accuracy": acc, "f1_score": f1}, f)
+            metrics_data = {
+                "accuracy": acc, 
+                "f1_score": f1,
+                "class_distribution": class_distribution  # BONUS 5: Add distribution
+            }
+            json.dump(metrics_data, f, indent=2)
 
         os.makedirs("models", exist_ok=True)
         joblib.dump(model, "models/model.pkl", compress=3)
