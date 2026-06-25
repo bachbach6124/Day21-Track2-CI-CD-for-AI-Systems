@@ -1,3 +1,4 @@
+desc: continuous training verification after adding train_phase2
 outs:
 - md5: 64c88e83d8d5f141465393fd9b5d9e73
   size: 362071
