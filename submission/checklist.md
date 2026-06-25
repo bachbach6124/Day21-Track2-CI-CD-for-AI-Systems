@@ -18,6 +18,9 @@
 - [x] Chay `AWS_REGION=us-east-1 BUCKET=bachbach-mlops-lab-aws-20260626001024 INSTANCE_NAME=mlops-serve-2 INSTANCE_TYPE=t3.small scripts/setup_aws_ec2.sh` de tao/cau hinh EC2 va copy `src/serve.py`.
 - [x] Chay `AWS_REGION=us-east-1 BUCKET=bachbach-mlops-lab-aws-20260626001024 VM_HOST=54.197.156.225 VM_USER=ubuntu scripts/set_github_secrets_aws.sh` de them GitHub Secrets.
 - [x] Test endpoint tren VM bang `curl`.
+- [x] Tao screenshot MLflow runs evidence: `submission/screenshots/01-mlflow-runs.png`.
+- [x] Tao screenshot continuous training trigger: `submission/screenshots/07-continuous-training-run.png`.
+- [x] Tao file tong hop bang chung: `submission/evidence.md`.
 - [ ] Push repo len GitHub va lay screenshot Actions.
 - [ ] Chup screenshot MLflow UI, Actions, Cloud Storage, curl outputs.
 
